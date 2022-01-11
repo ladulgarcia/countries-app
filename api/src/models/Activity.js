@@ -4,8 +4,8 @@ const { DataTypes } = require('sequelize');
 module.exports = (sequelize) => {
   // defino el modelo
   sequelize.define('activity', {
-      // Sequelize crea el id por defecto 
-      name: { // Nombre
+    // Sequelize crea el id por defecto   
+    name: { // Nombre
         type: DataTypes.STRING,
         allowNull: false,
     },
@@ -27,5 +27,3 @@ module.exports = (sequelize) => {
   },
   );
 };
-
-
