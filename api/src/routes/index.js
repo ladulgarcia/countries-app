@@ -6,66 +6,69 @@ const Sequelize = require('sequelize')
 const axios = require('axios');
 
 // Traigo tablas DB
-const { Country, Activity, country_activity} = require('../db.js');
+//const { Country, Activity, country_activity} = require('../db.js');
+const { Country, Activity} = require('../db.js');
 
 const router = Router();
 
-const {LoadDb} = require('../loadDb/loadDb.js')
+// const {LoadDb} = require('../loadDb/loadDb.js')
 
 // Configurar los routers
 
-// ******************************************* Get API info **********************************************************
-/* const countriesApi = async () => {
-    const countriesUrl = await axios.get('https://restcountries.com/v3/all');
-    const countries = await countriesUrl.data.map(country => {
-        return{
-            name: country.name.common,
-            id: country.cca3,
-            flags: country.flags[0],
-            continent: country.region[0],
-            capital: country.capital != null ? country.capital : 'No capital found',
-            subregion: country.subregion,
-            area: country.area,
-            population: country.population,
-            maps: country.googleMaps,
-        };
-    });
-    return countries;
-};
- */
 
 // ******************************************* GET /countries: *****************************************************
     // Traer todos los paises desde la API a DB 
     // Almacenar solo datos requeridos para la ruta principal 
     // Obtener listado de los paises
-/*     router.get('/countries', async (req,res) => {
-    const countries = await countriesApi() // Guardo en una constante lo que obtengo de la api 
-    const queryName = req.query.name// Guardo el name pasado por query
-    const queryOrder = req.query.order
-    try{
-        // Si la db esta llena no se hace nada
-        let full = await Country.findAll({
-            include: {
-                model: Activity,
-            }
-        })
-        if(!full.length){ // Si no hay datos, se crean
-            // bulkCreate busca los campos en el objeto y los pasa a la tabla
-            // los datos del objeto para los que no hay campos en la tabla, no los guarda
-            await Country.bulkCreate(countries)
-        } 
-    } catch (error){
-        console.log(error) 
-    }
+const countriesApi = async (req, res) => {
+   try{
+    const countriesUrl = await axios.get('https://restcountries.com/v3/all');
+    //console.log(countriesUrl)
+    const countries = await countriesUrl.data.map(country => {
+        return{
+        name: country.name.common,
+        id: country.cca3,
+        flags: country.flags[1] ? country.flags[1]: 'Image not found',
+        continent: country.region,
+        capital: country.capital ? country.capital[0] : "Capital not found",
+        subregion: country.subregion ? country.subregion : "Subregion not found",
+        area: country.area  ? parseInt(country.area) : 0,
+        population: country.population ? country.population : 0,
+        };
+    });
+    //console.log(countries)
+    countries.forEach(async (country) => { // guarda BD
+        await Country.findOrCreate({ // Cargar solo lo que no existe (mantengo index en false)
+          where: {
+            name: country.name,
+            id: country.id,
+            flags: country.flags,
+            continent: country.continent,
+            capital: country.capital,
+            subregion: country.subregion,
+            area: country.area,
+            population: country.population,
+          },
+        });
+      });
+      console.log('DB success')
+      return countries; //Listado
+    }catch (error) {
+        res.send(error);
+    }  
+}
+
 // ******************************************* GET /countries?name="...": *********************************************
 // Obtener países que coincidan con el nombre pasado como query parameter (No tiene que ser case sensitive)
 // Si no existe ningún país mostrar un mensaje
-
+   router.get('/countries', async (req,res) => {
+    const countries = await countriesApi() // Guardo en una constante lo que obtengo de la api 
+    const queryName = req.query.name// Guardo el name pasado por query
+    //const queryOrder = req.query.order
     if(queryName){
         let countryName = await Country.findAll({
             where : {
-                name: {
-                    // Operador que busca coincidencias y no es case sensitive
+                name: { // Operador que busca coincidencias y no es case sensitive
                     [Sequelize.Op.iLike] : `%${queryName}%` // % antes y después de queryName (busca coincidencias) para búsqueda no sensitiva
                 }
             }
@@ -73,19 +76,23 @@ const {LoadDb} = require('../loadDb/loadDb.js')
         countryName.length ?
         res.status(200).send(countryName) :
         res.status(404).send('Country not found')
-    } else if(queryOrder){
-        try {
-        let country = await Country.findAll({
-            order : [['population', queryOrder]],
-            include: {
-                model: Activity,
-            }
-        })
-        res.status(200).send(country)
-        } catch (error) {
-        res.status(500).send('Error')
-        }
-    } else {
+    } 
+    
+    // else if(queryOrder){
+    //     try {
+    //     let country = await Country.findAll({
+    //         order : [['population', queryOrder]],
+    //         include: {
+    //             model: Activity,
+    //         }
+    //     })
+    //     res.status(200).send(country)
+    //     } catch (error) {
+    //     res.status(500).send('Error')
+    //     }
+    // } 
+    
+    else {
         let full = await Country.findAll({
             include: {
                 model: Activity
@@ -93,14 +100,18 @@ const {LoadDb} = require('../loadDb/loadDb.js')
         })
         res.status(200).send(full)
     }
+}) 
 
-}) */
+    router.get('/countries', async (req,res) => {
+        const countries = await countriesApi(req, res) // Guardo en una constante lo que obtengo de la api 
+        res.status(200).send(countries) 
+    })
 
 // ******************************************* GET /countries/{idPais}: **********************************************
 // Obtener el detalle de un país en particular
 // Traer solo los datos pedidos en la ruta de detalle de país
 // Incluir los datos de las actividades turísticas correspondientes
-router.get('/loadDb/:id', async (req,res) => {
+router.get('/countries/:id', async (req,res) => {
     const countryId = req.params.id //const {id} = req.params;
     let countryById = await Country.findByPk(countryId, {
         include : {
