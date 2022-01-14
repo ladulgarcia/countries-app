@@ -24,7 +24,7 @@ const countriesApi = async (req, res) => {
    try{
     const countriesUrl = await axios.get('https://restcountries.com/v3/all');
     //console.log(countriesUrl)
-    const countries = await countriesUrl.data.map(country => {
+    const countries = await countriesUrl.data.map(country => { // data postparse
         return{
         name: country.name.common,
         id: country.cca3,
@@ -34,6 +34,7 @@ const countriesApi = async (req, res) => {
         subregion: country.subregion ? country.subregion : "Subregion not found",
         area: country.area  ? parseInt(country.area) : 0,
         population: country.population ? country.population : 0,
+        maps: country.maps['googleMaps'] ? country.maps['googleMaps']: 'Map not found'
         };
     });
     //console.log(countries)
@@ -48,6 +49,7 @@ const countriesApi = async (req, res) => {
             subregion: country.subregion,
             area: country.area,
             population: country.population,
+            maps: country.maps
           },
         });
       });
@@ -61,51 +63,27 @@ const countriesApi = async (req, res) => {
 // ******************************************* GET /countries?name="...": *********************************************
 // Obtener países que coincidan con el nombre pasado como query parameter (No tiene que ser case sensitive)
 // Si no existe ningún país mostrar un mensaje
-   router.get('/countries', async (req,res) => {
-    const countries = await countriesApi() // Guardo en una constante lo que obtengo de la api 
-    const queryName = req.query.name// Guardo el name pasado por query
-    //const queryOrder = req.query.order
-    if(queryName){
-        let countryName = await Country.findAll({
-            where : {
-                name: { // Operador que busca coincidencias y no es case sensitive
-                    [Sequelize.Op.iLike] : `%${queryName}%` // % antes y después de queryName (busca coincidencias) para búsqueda no sensitiva
-                }
-            }
-        })
-        countryName.length ?
-        res.status(200).send(countryName) :
-        res.status(404).send('Country not found')
-    } 
-    
-    // else if(queryOrder){
-    //     try {
-    //     let country = await Country.findAll({
-    //         order : [['population', queryOrder]],
-    //         include: {
-    //             model: Activity,
-    //         }
-    //     })
-    //     res.status(200).send(country)
-    //     } catch (error) {
-    //     res.status(500).send('Error')
-    //     }
-    // } 
-    
-    else {
-        let full = await Country.findAll({
-            include: {
-                model: Activity
-            }
-        })
-        res.status(200).send(full)
-    }
-}) 
 
     router.get('/countries', async (req,res) => {
+        const queryName = req.query.name// Guardo el name pasado por query
+        //const queryOrder = req.query.order
+        if(queryName){
+            let countryName = await Country.findAll({
+                where : {
+                    name: { // Operador que busca coincidencias y no es case sensitive
+                        [Sequelize.Op.iLike] : `%${queryName}%` // % antes y después de queryName (busca coincidencias) para búsqueda no sensitiva
+                    }
+                }
+            })
+            countryName.length ? // if(countryName.length > 0 then countryName --> else not found)
+            res.status(200).send(countryName) :
+            res.status(404).send('Country not found')
+        } else {   
         const countries = await countriesApi(req, res) // Guardo en una constante lo que obtengo de la api 
         res.status(200).send(countries) 
+    }
     })
+
 
 // ******************************************* GET /countries/{idPais}: **********************************************
 // Obtener el detalle de un país en particular
@@ -150,10 +128,9 @@ router.post('/activity', async (req,res) => {
             season,
             countries
         })
-
         // Se revisa el array de paises para ver en cual crear la actividad 
-        countries.forEach(async (country) => {
-            let activityCountry = await Country.findOne({ where: { name: country }}) // country llega por body
+        req.body.countries.forEach(async (country) => {
+            let activityCountry = await Country.findOne({ where: { id: country }}) // country llega por body
             await newActivity.addCountry(activityCountry)
         });
         res.status(200).send('The activity was successfully created')
@@ -162,5 +139,6 @@ router.post('/activity', async (req,res) => {
         res.status(500).send('The activity could not be created')
     }
 })
+
 
 module.exports = router;
