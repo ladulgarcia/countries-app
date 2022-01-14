@@ -38,15 +38,15 @@ module.exports = (sequelize) => {
       type: DataTypes.INTEGER,
       allowNull: true,
     },
-    maps:{
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    createdInDb: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false,
-      defaultValue: true,
-    }, 
+    // maps:{
+    //   type: DataTypes.STRING,
+    //   allowNull: true,
+    // },
+    // createdInDb: {
+    //   type: DataTypes.BOOLEAN,
+    //   allowNull: false,
+    //   defaultValue: true,
+    // }, 
   },
   {
     timestamps: false

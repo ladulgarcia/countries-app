@@ -10,32 +10,35 @@ const { Country, Activity, country_activity} = require('../db.js');
 
 const router = Router();
 
+const {LoadDb} = require('../loadDb/loadDb.js')
+
 // Configurar los routers
 
 // ******************************************* Get API info **********************************************************
-const countriesApi = async () => {
+/* const countriesApi = async () => {
     const countriesUrl = await axios.get('https://restcountries.com/v3/all');
     const countries = await countriesUrl.data.map(country => {
         return{
             name: country.name.common,
             id: country.cca3,
             flags: country.flags[0],
-            continent: country.continents[0],
+            continent: country.region[0],
             capital: country.capital != null ? country.capital : 'No capital found',
             subregion: country.subregion,
             area: country.area,
             population: country.population,
-            maps: country.maps,
+            maps: country.googleMaps,
         };
     });
     return countries;
 };
+ */
 
 // ******************************************* GET /countries: *****************************************************
     // Traer todos los paises desde la API a DB 
     // Almacenar solo datos requeridos para la ruta principal 
     // Obtener listado de los paises
-router.get('/countries', async (req,res) => {
+/*     router.get('/countries', async (req,res) => {
     const countries = await countriesApi() // Guardo en una constante lo que obtengo de la api 
     const queryName = req.query.name// Guardo el name pasado por query
     const queryOrder = req.query.order
@@ -57,6 +60,7 @@ router.get('/countries', async (req,res) => {
 // ******************************************* GET /countries?name="...": *********************************************
 // Obtener países que coincidan con el nombre pasado como query parameter (No tiene que ser case sensitive)
 // Si no existe ningún país mostrar un mensaje
+
     if(queryName){
         let countryName = await Country.findAll({
             where : {
@@ -68,7 +72,7 @@ router.get('/countries', async (req,res) => {
         })
         countryName.length ?
         res.status(200).send(countryName) :
-        res.status(404).send('No se encontro el pais')
+        res.status(404).send('Country not found')
     } else if(queryOrder){
         try {
         let country = await Country.findAll({
@@ -90,13 +94,13 @@ router.get('/countries', async (req,res) => {
         res.status(200).send(full)
     }
 
-})
+}) */
 
 // ******************************************* GET /countries/{idPais}: **********************************************
 // Obtener el detalle de un país en particular
 // Traer solo los datos pedidos en la ruta de detalle de país
 // Incluir los datos de las actividades turísticas correspondientes
-router.get('/countries/:id', async (req,res) => {
+router.get('/loadDb/:id', async (req,res) => {
     const countryId = req.params.id //const {id} = req.params;
     let countryById = await Country.findByPk(countryId, {
         include : {
@@ -133,7 +137,7 @@ router.post('/activity', async (req,res) => {
             difficulty,
             duration,
             season,
-            createdInDb
+            countries
         })
 
         // Se revisa el array de paises para ver en cual crear la actividad 
