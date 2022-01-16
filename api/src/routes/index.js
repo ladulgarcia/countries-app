@@ -118,7 +118,8 @@ router.post('/activity', async (req,res) => {
             difficulty,
             duration, 
             season, 
-            countries
+            countries,
+            reference
         } = req.body
         // Se crea la actividad
         let newActivity = await Activity.create({
@@ -126,7 +127,8 @@ router.post('/activity', async (req,res) => {
             difficulty,
             duration,
             season,
-            countries
+            countries,
+            reference
         })
         // Se revisa el array de paises para ver en cual crear la actividad 
         req.body.countries.forEach(async (country) => {
