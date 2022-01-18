@@ -22,7 +22,8 @@ function rootReducer(state = initialState, action){
                 ...state,
                 countries: action.payload
             }      
-        case GET_COUNTRY: return {
+        case GET_COUNTRY: 
+            return {
             ...state,
             country: action.payload
         }    
@@ -37,8 +38,8 @@ function rootReducer(state = initialState, action){
             }
         case ORDER_BY_NAME:
             let sortedCountries = action.payload === 'asc' ?
-            state.countries.sort((a,b) => a.name.localeCompare(b.name)) :
-            state.countries.sort((a,b) => b.name.localeCompare(a.name));
+            state.countries.sort((a, b) => a.name.localeCompare(b.name)) :
+            state.countries.sort((a, b) => b.name.localeCompare(a.name));
              return{
                 ...state,
                 countries: sortedCountries
@@ -48,20 +49,18 @@ function rootReducer(state = initialState, action){
             const continentFilter = action.payload === 'All' ?
             allCountries : allCountries.filter(country => 
                 country.continent === action.payload)    
-
             return{
                 ...state,
                 countries : continentFilter
             }   
         case FILTER_ACTIVITY:
-            const allCountriesAct = state.allCountries
-            const activitiesFilter = action.payload === 'All' ?
-            allCountriesAct : allCountriesAct.filter(country => 
+            const allCountriesAct = state.allCountries // me devuelve todos los países
+            const activitiesFilter = action.payload === 'All' ? //devuelve allCountriesAct
+            allCountriesAct : allCountriesAct.filter(country => // si no, me los devuelve filtrados
                 country.activities && country.activities.map(el => el.name).includes(action.payload))
-
             return{
                 ...state,
-                countries: activitiesFilter
+                countries: activitiesFilter //
             }     
         default :
         return state;    

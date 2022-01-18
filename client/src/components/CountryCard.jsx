@@ -2,7 +2,7 @@ import React from "react";
 
 
 // function CountryCard({flags, name, region, id}){  
-function CountryCard({flags,name,continent,population,id}){  
+function CountryCard({flags, name, continent, population}){  
     return (
             <div>
             <img src={flags} alt="img not found" width='250px' height='125px'/>
