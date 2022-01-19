@@ -6,7 +6,9 @@ function LandingPage(){
         <div>
             <h1>Welcome</h1>
             <Link to='/home'>
-                    <button>Enter</button>
+            <div>
+                <button>Enter</button>
+            </div>
             </Link>
         </div>
     )

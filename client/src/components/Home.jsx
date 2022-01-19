@@ -5,7 +5,7 @@ import {getCountries, getActivities, filterByContinent, filterByActivity, orderN
 import {Link} from 'react-router-dom'
 import CountryCard from './CountryCard'
 import Pagination from "./Pagination"
-
+import NavBar from "./NavBar";
 
 function Home(){
     const dispatch = useDispatch();
@@ -119,6 +119,10 @@ function Home(){
                 allCountries={allCountries.length}
                 pagination={pagination}
             />
+            <NavBar/>
+
+
+
 
             {/* Mapeo de currentCountries, solo toma lo que me devuelve el paginado */}
             {currentCountries?.map(country => {
@@ -127,7 +131,7 @@ function Home(){
             <Link to={'/home/' + country.id}>
                 <CountryCard 
                 name={country.name} 
-                flags={country.flags} 
+                flag={country.flags} 
                 continent={country.continent}
                 id={country.id}
                 population={country.population}

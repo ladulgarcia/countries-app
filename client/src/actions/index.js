@@ -3,8 +3,8 @@ import axios from 'axios'
 // Conexion con backend
 export function getCountries(order){
     return async function(dispatch){
-        let json = await axios.get('http://localhost:3001/api/countries?order=');
-        //let json = await axios.get('http://localhost:3001/api/countries?order=' + order);
+        //let json = await axios.get('http://localhost:3001/api/countries?order=');
+        let json = await axios.get('http://localhost:3001/api/countries?order=' + order);
         const data = json.data
         //const {currentCountries, totalPages} = pagination(data)
         return dispatch({
@@ -34,9 +34,10 @@ export function getActivities(){
     }
 }
 
-export function postActivity(payload){
-    return async function(dispatch){
+export function postActivity(payload){ 
+    return async function(dispatch){ // En la ruta abajo quiero hacer el post del payload
         let json = await axios.post('http://localhost:3001/api/activity', payload);
+        console.log(json)
         return json;
     }
 }
@@ -47,7 +48,7 @@ export function getByName(name){
             let json = await axios.get('http://localhost:3001/api/countries?name=' + name);
             return dispatch({
                 type: 'GET_BY_NAME',
-                payload: json.data
+                payload: json.data // Es lo que devuelve algo por data al pasarle un name
             })
         } catch (error) {
             console.log('Country not found')
