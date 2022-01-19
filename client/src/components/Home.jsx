@@ -22,11 +22,13 @@ function Home(){
 
     // Estado local con la pagina actual con un estado que me setee la página actual; seteado en 1
     const [currentPage, setCurrentPage] = useState(1) // Página actual arranca/seteada en 1
-    const countriesPerPage = useState(9) // Cantidad de paises por pagina
+    const [countriesPerPage] = useState(9) // Cantidad de paises por pagina
     const IndexOfLastCountry = currentPage * countriesPerPage  //Index of IndexOfLastCountry: currentPage * 9 = 9
     const IndexOfFirstCountry = IndexOfLastCountry - countriesPerPage  // Index of IndexOfFirstCountry: 9 - 9 = 0
+   
+    // REVISAR ESTA PARTE
     const currentCountries = allCountries.slice(IndexOfFirstCountry, IndexOfLastCountry)// Dividir el array según cantidad de paises solicitados (9)
-
+    console.log(currentCountries)
     const [order, setOrder] = useState('')
 
     const pagination = (PageNumber)=>{ // me lleva al renderizado
@@ -36,7 +38,7 @@ function Home(){
     // Me traigo del estado los países cuando el componente se monta con useEffect
     useEffect(() => {
         setIsLoading(true)
-        dispatch(getCountries(order),
+        dispatch(getCountries(),
         dispatch(getActivities()));
         setIsLoading(false)
     }, [dispatch, order]) //Si alguno de estos valores cambia, se vuelve a ejecutar
@@ -45,11 +47,6 @@ function Home(){
         event.preventDefault();
         dispatch(getCountries(order))
     }
-
-    // const changeOrder = (event) => {
-    //     event.preventDefault()
-    //     setOrder(event.target.value)
-    // }
 
     function handleSort(event){
         event.preventDefault();
@@ -72,12 +69,14 @@ function Home(){
     }
 
    return (
-    <div className={styles.homeimg}>
+    <div>
         <header>
         <h1>Countries of the World</h1>
         <Link to='/activity' className={styles.btn}>Create Activity</Link>
         {/* <button onClick={event => {handleClick(event)}}>Load Countries</button> */}
         </header>
+        
+        {/* Me traigo el NavBar.jsx */}
         <NavBar/>
 
 
@@ -113,38 +112,44 @@ function Home(){
                 ))}
             </select>
 
-
-            {/* Mapeo de currentCountries, solo toma lo que me devuelve el paginado */}
-            { isLoading ? <img src='../images/loading.gif' alt='Loading...'/> :
-            <ul className={styles.countriesGrid}>
-            {  currentCountries?.map(country => (
-            <Link to={'/home/' + country.id}>
-                <CountryCard 
-                name={country.name} 
-                flag={country.flags} 
-                continent={country.continent}
-                id={country.id}
-                population={country.population}
-                key={country.id}/>
-            </Link>
-                ))}
-            </ul>
-            }
-
             <Pagination 
                 countriesPerPage={countriesPerPage}
                 allCountries={allCountries.length}
                 pagination={pagination}
             />
 
+            {/* Mapeo de currentCountries, solo toma lo que me devuelve el paginado */}
+            { isLoading ? <img src='../images/loading.gif' alt='Loading...'/> :
+            <ul className={styles.countriesGrid}>
+            { 
+            // console.log(currentCountries)  
+            currentCountries?.map(country => (
+            //currentCountries?.map(country => (
+
+            <Link to={'/home/' + country.id}>
+                <CountryCard 
+                name={country.name} 
+                flag={country.flag} 
+                continent={country.continent}
+                id={country.id}
+                population={country.population}
+                key={country.id}
+                />
+            </Link>
+                ))}
+            </ul>
+            }
+
+            {/* <Pagination 
+                countriesPerPage={countriesPerPage}
+                allCountries={allCountries.length}
+                pagination={pagination}
+            /> */}
+
         <button onClick={(event) => {handleClick(event);
         }}
           >Reload
         </button>
-
-
-
-
     </div>
    )}
 

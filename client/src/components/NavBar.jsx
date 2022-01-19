@@ -28,6 +28,7 @@ export default function NavBar() {
 
   const handleClick = (event) => {
     event.preventDefault(); // Name es mi estado local
+    //console.log("handleClick name:" + name)
     dispatch(getByName(name)); // Despacho la acción pasándole name, como estado local
     setName('')
   };

@@ -13,19 +13,19 @@ import styles from './LandingPage.module.css'
 //function CreateActivity() {
 export default function CreateActivity() {
 
+// Validación de estados con react
 function validate(input) {
     let errors = {};
     if(!input.name){ // Hay un name?
-        alert("Name required") 
-        // errors.name = "Name required"
+        errors.name = "Name required"; 
     }else if(!input.difficulty){ // hay nivel de dificultad?
-        alert ("Difficulty required")
+        errors.difficulty = "Difficulty required";
     }else if(!input.duration){ // so on...
-       alert ("Activity time needed")
+        errors.duration = "Activity time needed";
     }else if(!input.season){
-       alert ("Season needed")
+        errors.season = "Season needed";
     }else if(input.countries.length <= 0){
-       alert ("Select countries for activity created")
+        errors.countries = "Select countries for activity created";
     }
     return errors;
 }
@@ -97,11 +97,11 @@ function validate(input) {
     }
 
     function handleDelete(e){
-        setInput({
-            ...input,
+        setInput({ // seteo el input 
+            ...input, // me traigo el anterior 
             //Se va a filtrar todo el array, devolviendo todos los paises que no coincidan con el seleccionado
-            countries: input.countries.filter(country => country !== e)
-        })
+            countries: input.countries.filter(country => country !== e) // me traigo el estado y me devuelve
+        }) // filtralo por todo lo que no sea el elemento (e), me devuelver el estado de nuevo sin los elementos que hice click
     }        
 
     useEffect(() => {
@@ -119,7 +119,7 @@ return (
     
     <form onSubmit={(e) => handleSubmit(e)}>
         <div>
-            <label>Name:</label>
+            <label>Name of activity:</label>
             <input type="text" 
             value={input.name} 
             name='name'
@@ -212,16 +212,19 @@ return (
                     </div>
                     {errors.countries && (<p>{errors.countries}</p>)}
                     </div>
-                {input.countries.map((e) =>
+    </form>
+
+                {input.countries.map((e) => // mi estado local que va a tener todos los países y se mapea en un div
                 <div>
-                    <p>{e}</p>
+                    {/* renderiza un párrafo con el elemento y un botón que borre el elemento*/}
+                    <p>{e}</p> 
                     <button type='button' onClick={() => handleDelete(e)}>X</button>
                 </div>
                 )}
                 <div>
                 <button type='submit'>Create Activity</button>
                 </div>
-    </form>
+    
 </div>
 )
 }

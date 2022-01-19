@@ -11,10 +11,10 @@ const CountryDetail = () => {
     const dispatch = useDispatch();
     
     useEffect(() => {
-        dispatch(getCountry(countryId));
+        dispatch(getCountry(countryId)); //accedo al Id del detalle
       }, [dispatch, countryId]);
 
-    const country = useSelector((state) => state.country)
+    const country = useSelector((state) => state.country)// el nombre del estado, country
 
     return(
         <div>
@@ -29,7 +29,7 @@ const CountryDetail = () => {
              <p><strong>Continent:</strong>{country.continent}</p>
              <p><strong>Capital:</strong> {country.capital}</p>
              <p><strong>Subregion:</strong> {country.subregion}</p>
-             <p><strong>Area:</strong> {country.area} km2</p>
+             <p><strong>Area:</strong> {country.area}km2</p>
              <p><strong>Population:</strong> {country.population} population</p>
              <div>
              {country.activities && country.activities.map((activity) => 

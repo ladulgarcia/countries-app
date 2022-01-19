@@ -1,7 +1,5 @@
 import {GET_COUNTRIES, GET_COUNTRY, GET_BY_NAME, GET_ACTIVITY, ORDER_BY_NAME, FILTER_CONTINENT, FILTER_ACTIVITY} from '../actions'
 
-
-
 const initialState = {// Estado para renderizar, se usa para hacer el filtrado
     countries : [],
     allCountries : [], // Estado soporte que siempre tiene todos los paises 
@@ -18,8 +16,11 @@ function rootReducer(state = initialState, action){
                 allCountries: action.payload
             } 
         case GET_BY_NAME:
+            console.log("rootReducer action.payload:")
+            console.log(action.payload)
             return {
                 ...state,
+                //currentCountries: action.payload
                 countries: action.payload
             }      
         case GET_COUNTRY: 
