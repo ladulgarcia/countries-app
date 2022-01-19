@@ -5,25 +5,21 @@ import Home from './components/Home'
 import LandingPage from './components/LandingPage'
 import CountryDetail from './components/CountryDetail';
 import CreateActivity from './components/CreateActivity';
-//import { Component } from 'react';
-
 
 // element + Routes en lugar de component versión react-router 6
-//function App() {
- const App = () => {
+function App() {
+// const App = () => {
   return (
     // <BrowserRouter>
-    // <div className="App">
-    
+     <div className="App">
     <Routes>
       {/* <h1>Henry Countries</h1> */}
-      <Route path='/' element={<LandingPage/>}/>
-      <Route path='/home' element={<Home/>}/>
-      <Route path='/activity' element={<CreateActivity/>}/>
-      <Route path='/home/:countryId' element={<CountryDetail/>}/>
-    </Routes>
-   
-    // </div>
+      <Route path = '/' element={<LandingPage/>}/>
+      <Route path = '/home' element={<Home/>}/>
+      <Route path = '/activity' element={<CreateActivity/>}/>
+      <Route path = '/home/:countryId' element={<CountryDetail/>}/>
+    </Routes> 
+    </div>
     // </BrowserRouter>
   );
 }

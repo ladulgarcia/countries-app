@@ -7,9 +7,8 @@ export default function Pagination ({countriesPerPage, allCountries, pagination}
             pageNumbers.push(i+1);
             // pageNumbers.push(i);
         }
-    
     // renderiza los números del paginado en mi componente
-    // number= cada una de las páginas (allCountries / countriesPerPage) para renderizar los paises
+    // number = cada una de las páginas (allCountries / countriesPerPage) para renderizar los paises
     return(
         <nav>
             <ul>

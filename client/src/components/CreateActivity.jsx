@@ -5,23 +5,29 @@ import { Link } from 'react-router-dom'
 //import { Link, useHistory} from 'react-router-dom'
 import { useNavigate } from 'react-router'
 
+// Estilos
+import styles from './LandingPage.module.css'
+
 
 //const CreateActivity = () => {
 //function CreateActivity() {
 export default function CreateActivity() {
 
 function validate(input) {
-    if(!input.name){
+    let errors = {};
+    if(!input.name){ // Hay un name?
         alert("Name required") 
-    }else if(!input.difficulty){
+        // errors.name = "Name required"
+    }else if(!input.difficulty){ // hay nivel de dificultad?
         alert ("Difficulty required")
-    }else if(!input.duration){
-       alert ("Time needed (ej: 2hrs)")
+    }else if(!input.duration){ // so on...
+       alert ("Activity time needed")
     }else if(!input.season){
        alert ("Season needed")
     }else if(input.countries.length <= 0){
        alert ("Select countries for activity created")
     }
+    return errors;
 }
 
     const dispatch = useDispatch()
@@ -43,12 +49,12 @@ function validate(input) {
 
     function handleChange(e){
         // Le agregamos el e.target.value (lo que vamos modificando) al input actual 
-        setInput({ // setea el estado
+        setInput({ // setea el estado/input
             ...input, // se trae todo lo que ya tenía 
             [e.target.name] : e.target.value // seteamelo en  un target value de lo que esté modificando
         })
-        setErrors(validate({
-            ...input,
+        setErrors(validate({ // seteame mi estado de errores pasándole la funcion validate
+            ...input, // con el estado input con el e.target.name y el e.target.value
             [e.target.name] : e.target.value 
         }))
         console.log(input)
@@ -105,7 +111,7 @@ function validate(input) {
     console.log(input)
 
 return (
-<div>
+<div className={styles.createactimg}>
     <Link to='/home'>
         <button>Back</button>
     </Link>
@@ -179,7 +185,7 @@ return (
                 type="radio" 
                 value='Spring' 
                 name='season'
-                onChange={(e) => handleCheck(e)}/>Primavera</label>
+                onChange={(e) => handleCheck(e)}/>Spring</label>
             <label>
             <input 
                 type="radio" 
