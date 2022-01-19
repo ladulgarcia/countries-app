@@ -3,14 +3,29 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getCountries, postActivity } from '../actions'
 import { Link } from 'react-router-dom'
 //import { Link, useHistory} from 'react-router-dom'
-import { useHistory } from 'react-router'
+import { useNavigate } from 'react-router'
 
 
 //const CreateActivity = () => {
 //function CreateActivity() {
 export default function CreateActivity() {
+
+function validate(input) {
+    if(!input.name){
+        alert("Name required") 
+    }else if(!input.difficulty){
+        alert ("Difficulty required")
+    }else if(!input.duration){
+       alert ("Time needed (ej: 2hrs)")
+    }else if(!input.season){
+       alert ("Season needed")
+    }else if(input.countries.length <= 0){
+       alert ("Select countries for activity created")
+    }
+}
+
     const dispatch = useDispatch()
-    const history = useHistory()
+    const history = useNavigate()
     
     // me traigo a los countries y le digo que me traiga el state.countries
     const countries = useSelector((state) => state.countries)
@@ -36,7 +51,7 @@ export default function CreateActivity() {
             ...input,
             [e.target.name] : e.target.value 
         }))
-        //console.log(input)
+        console.log(input)
     }
 
     function handleCheck(e){
@@ -46,6 +61,7 @@ export default function CreateActivity() {
                 [e.target.name] : e.target.value //
             })
         }
+    }
 
     function handleSelect(e){
         setInput({ // en el estado donde me va a guardar toto
@@ -62,7 +78,8 @@ export default function CreateActivity() {
             e.preventDefault();
             dispatch(postActivity(input));
             alert('Success! The activity has been created');
-            history.push('/home') // Para volver a la pantalla principal
+            history('/home') // Para volver a la pantalla principal
+            //history.push('/home') // Para volver a la pantalla principal
             setInput({ // Reseteamos el input tomando todo y pasándolo vacío
                 name: '',
                 difficulty: '',
@@ -135,7 +152,7 @@ return (
                 type="radio" 
                 value='5' 
                 name='difficulty'
-                onChange={(e) => handleCheck(e)}>5</label>
+                onChange={(e) => handleCheck(e)}/>5</label>
         </div>
     
         <div>
@@ -198,7 +215,6 @@ return (
                 <div>
                 <button type='submit'>Create Activity</button>
                 </div>
-        </div>
     </form>
 </div>
 )

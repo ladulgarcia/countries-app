@@ -1,28 +1,35 @@
 import './App.css';
-import {BrowserRouter, Route, Routes} from 'react-router-dom'
+import {Route, Routes} from 'react-router-dom'
 //import { Link } from 'react-router-dom'; 
 import Home from './components/Home'
 import LandingPage from './components/LandingPage'
 import CountryDetail from './components/CountryDetail';
 import CreateActivity from './components/CreateActivity';
+//import { Component } from 'react';
 
 
 // element + Routes en lugar de component versión react-router 6
-function App() {
+//function App() {
+ const App = () => {
   return (
-    <BrowserRouter>
-    <div className="App">
+    // <BrowserRouter>
+    // <div className="App">
+    
     <Routes>
       {/* <h1>Henry Countries</h1> */}
-      <Route exact path='/' element={LandingPage}/>
-      <Route exact path='/home' element={Home}/>
-      <Route path='/activity' element={CreateActivity}/>
-      <Route path='/home/:countryId' element={CountryDetail}/>
+      <Route path='/' element={<LandingPage/>}/>
+      <Route path='/home' element={<Home/>}/>
+      <Route path='/activity' element={<CreateActivity/>}/>
+      <Route path='/home/:countryId' element={<CountryDetail/>}/>
     </Routes>
-    </div>
-    </BrowserRouter>
+   
+    // </div>
+    // </BrowserRouter>
   );
 }
+
+export default App;
+
 
 // function App() {
 //   return (
@@ -39,4 +46,3 @@ function App() {
 //     </BrowserRouter>
 //   );
 // }
-export default App;

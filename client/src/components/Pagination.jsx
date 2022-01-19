@@ -13,10 +13,14 @@ export default function Pagination ({countriesPerPage, allCountries, pagination}
     return(
         <nav>
             <ul>
+            
                 { pageNumbers &&
-                    pageNumbers.map(number => {
-                            <a onClick={() => pagination(number)}>{number}</a>
-                    })
+                    pageNumbers.map(number => (
+                        <li>
+                            <button onClick={() => pagination(number)}>{number}</button>
+                        </li>
+
+                    ))
                 }
             </ul>
         </nav>
