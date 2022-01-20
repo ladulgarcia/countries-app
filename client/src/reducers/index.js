@@ -1,4 +1,4 @@
-import {GET_COUNTRIES, GET_COUNTRY, GET_BY_NAME, GET_ACTIVITY, ORDER_BY_NAME, FILTER_CONTINENT, FILTER_ACTIVITY} from '../actions'
+import {GET_COUNTRIES, GET_COUNTRY, GET_BY_NAME, GET_ACTIVITY, ORDER_BY_NAME, FILTER_CONTINENT, FILTER_ACTIVITY, ORDER_BY_POPULATION} from '../actions'
 
 const initialState = {// Estado para renderizar, se usa para hacer el filtrado
     countries : [],
@@ -44,12 +44,31 @@ function rootReducer(state = initialState, action){
              return{
                 ...state,
                 countries: sortedCountries
-            }    
+            }  
+
+        case ORDER_BY_POPULATION:
+            let sortedCountriesPop = action.payload === 'asc' ?
+            state.countries.sort((a, b) => {
+                if (a.population > b.population) return 1;
+                if(a.population < b.population) return -1;
+                return 0;
+            }) :
+            state.countries.sort((a, b) => {
+                if (a.population > b.population) return -1;
+                if(a.population < b.population)return 1;
+                return 0;
+            });
+                return{
+                ...state,
+                countries: sortedCountriesPop
+            } 
+            
+
         case FILTER_CONTINENT:
             const allCountries = state.allCountries
-            const continentFilter = action.payload === 'All' ?
-            allCountries : allCountries.filter(country => 
-                country.continent === action.payload)    
+            const continentFilter = action.payload === 'All' ? // si el valor proporcionado = All entonces utilizar allCOuntries, caso countrario, filtra
+            allCountries : allCountries.filter(country => // para cada country ver si 
+                country.continent === action.payload)  // action.payload = valor proporcionado
             return{
                 ...state,
                 countries : continentFilter

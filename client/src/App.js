@@ -20,7 +20,7 @@ function App() {
       <Route path = '/home/:countryId' element={<CountryDetail/>}/>
     </Routes> 
     </div>
-    // </BrowserRouter>
+    // </BrowserRouter> 
   );
 }
 

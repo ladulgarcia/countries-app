@@ -6,12 +6,7 @@ import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router'
 
 // Estilos
-import styles from './LandingPage.module.css'
-
-
-//const CreateActivity = () => {
-//function CreateActivity() {
-export default function CreateActivity() {
+//import styles from './CreateActivity.module.css'
 
 // Validación de estados con react
 function validate(input) {
@@ -30,11 +25,16 @@ function validate(input) {
     return errors;
 }
 
+//const CreateActivity = () => {
+//function CreateActivity() {
+    export default function CreateActivity() {
+
     const dispatch = useDispatch()
     const history = useNavigate()
     
     // me traigo a los countries y le digo que me traiga el state.countries
     const countries = useSelector((state) => state.countries)
+    console.log(countries)
 
     const [errors, setErrors] = useState({})
 
@@ -44,11 +44,10 @@ function validate(input) {
         difficulty: '',
         duration: '',
         season:'',
-        countries: [] 
+        countries: [] // countryID: []
     })
 
-    function handleChange(e){
-        // Le agregamos el e.target.value (lo que vamos modificando) al input actual 
+    function handleChange(e){ // Le agregamos el e.target.value (lo que vamos modificando) al input actual 
         setInput({ // setea el estado/input
             ...input, // se trae todo lo que ya tenía 
             [e.target.name] : e.target.value // seteamelo en  un target value de lo que esté modificando
@@ -104,14 +103,18 @@ function validate(input) {
         }) // filtralo por todo lo que no sea el elemento (e), me devuelver el estado de nuevo sin los elementos que hice click
     }        
 
+    // useEffect(() => {
+    //     dispatch(getCountries('ASC'))
+    // }, [dispatch])
+    // console.log(input)
+
     useEffect(() => {
-        dispatch(getCountries('ASC'))
+        dispatch(getCountries())
     }, [dispatch])
-    
     console.log(input)
 
 return (
-<div className={styles.createactimg}>
+<div>
     <Link to='/home'>
         <button>Back</button>
     </Link>

@@ -1,5 +1,5 @@
 .createactimg{
-    background:url(../images/CreateActivityimg.jpg);
+    background:url('../images/CreateActivityimg.jpg');
     background-position: center;
     background-size: cover;
     height: 40rem;

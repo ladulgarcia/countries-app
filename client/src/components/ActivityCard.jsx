@@ -1,5 +1,6 @@
 import React from 'react';
-
+// import {Link} from 'react-router-dom'
+// import CountryCard from './CountryCard';
 
 const ActivityCard = (activity) => {
     return(

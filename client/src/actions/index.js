@@ -67,6 +67,15 @@ export function orderName(payload){
     }
 }
 
+export function orderPopulation(payload){
+    return {
+        type: 'ORDER_BY_POPULATION',
+        payload
+    }
+}
+
+
+
 export function filterByContinent(payload){
     return {
         type: 'FILTER_CONTINENT',
@@ -88,3 +97,4 @@ export const GET_BY_NAME = 'GET_BY_NAME';
 export const ORDER_BY_NAME = 'ORDER_BY_NAME';
 export const FILTER_CONTINENT = 'FILTER_CONTINENT';
 export const FILTER_ACTIVITY = 'FILTER_ACTIVITY'
+export const ORDER_BY_POPULATION = 'ORDER_BY_POPULATION'

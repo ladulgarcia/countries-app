@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect, useState} from "react";
 import {useDispatch, useSelector} from 'react-redux'
-import {getCountries, getActivities, filterByContinent, filterByActivity, orderName}  from '../actions'
+import {getCountries, getActivities, filterByContinent, filterByActivity, orderName, orderPopulation}  from '../actions'
 import {Link} from 'react-router-dom'
 import CountryCard from './CountryCard'
 import Pagination from "./Pagination"
@@ -30,6 +30,8 @@ function Home(){
     const currentCountries = allCountries.slice(IndexOfFirstCountry, IndexOfLastCountry)// Dividir el array según cantidad de paises solicitados (9)
     console.log(currentCountries)
     const [order, setOrder] = useState('')
+    console.log('orderNav:' +order)
+    //const [orderPop, setOrderPop] = useState('')
 
     const pagination = (PageNumber)=>{ // me lleva al renderizado
         setCurrentPage(PageNumber); //Setea el número de la página a mostrar
@@ -49,11 +51,23 @@ function Home(){
     }
 
     function handleSort(event){
+        //console.log('handleSort')
         event.preventDefault();
         dispatch(orderName(event.target.value));
         setCurrentPage(1); // setea la pagina principal
-        setOrder(`Order ${event.target.value}`) // setear para que desde el front se haga el ordenamiento
+        //console.log('order:' +order)
+        setOrder(`${event.target.value}`) // setear para que desde el front se haga el ordenamiento
+        //console.log(`${event.target.value}`)
     }
+
+    function handleSortPop(event){
+        //console.log('handleSort')
+        event.preventDefault();
+        dispatch(orderPopulation(event.target.value));
+        setCurrentPage(1); // setea la pagina principal
+        setOrder(`${event.target.value}`) // setear para que desde el front se haga el ordenamiento
+    }
+
 
     function handleFilterContinent(event){
         // Se toma como payload el value de la option que elija el usuario
@@ -87,7 +101,7 @@ function Home(){
                 <option value="desc">Descending</option>
             </select>
 
-            <select> 
+            <select onChange={event => handleSortPop(event)}> 
                 {/* Filtros ascendente y descendente por cantidad de poblacion */}
                 <option>Sort by population</option> 
                 <option value="ASC">Ascending</option>

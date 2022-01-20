@@ -1,5 +1,5 @@
 .landingimg{
-    background:url(../images/LandingPage.gif);
+    background:url('../images/LandingPage.gif');
     background-position: center;
     background-size: cover;
     height: 40rem;
