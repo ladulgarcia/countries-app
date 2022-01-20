@@ -4,6 +4,7 @@ import {Link} from 'react-router-dom'
 // Estilos
 import styles from './LandingPage.module.css'
 
+
 function LandingPage(){
     return (
         <div className={styles.landingimg}>

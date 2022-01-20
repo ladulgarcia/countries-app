@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router'
 
 // Estilos
-//import styles from './CreateActivity.module.css'
+import styles from './CreateActivity.module.css'
 
 // Validación de estados con react
 function validate(input) {
@@ -114,7 +114,7 @@ function validate(input) {
     console.log(input)
 
 return (
-<div>
+<div className={styles.createactimg}>
     <Link to='/home'>
         <button>Back</button>
     </Link>

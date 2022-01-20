@@ -6,6 +6,8 @@
     padding: 5rem;
     background-repeat: no-repeat; 
     font: h1;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: 350;
     /* color: rgb(166, 221, 243); */
     color: #d3dde0;  
 }
@@ -24,7 +26,7 @@
     text-transform: uppercase;
     text-decoration: none;
     padding: 0.8em 1.5em;
-    border-radius: 6em;
+    border-radius: 2em;
     transition: all .2s;
     position: absolute;
     border: none;

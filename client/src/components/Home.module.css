@@ -6,6 +6,8 @@
     padding: 5rem;
     background-repeat: no-repeat; 
     font: h1;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: 350;
     /* color: rgb(166, 221, 243); */
     color: rgb(15, 40, 121);  
 }

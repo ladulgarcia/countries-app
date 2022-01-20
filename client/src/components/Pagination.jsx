@@ -1,4 +1,5 @@
 import React from 'react';
+import styles from './Pagination.module.css'
 
 // countries per Page
 export default function Pagination ({countriesPerPage, allCountries, pagination}) {
@@ -10,10 +11,10 @@ export default function Pagination ({countriesPerPage, allCountries, pagination}
     // number = cada una de las páginas (allCountries / countriesPerPage) para renderizar los paises
     return(
         <nav>
-            <ul>
+            <ul className={styles.textbtn}>
                 { pageNumbers &&
                     pageNumbers.map(number => (
-                        <li>
+                        <li className={styles.btn1} key={number} >
                             <div onClick={() => pagination(number)}>{number}</div>
                         </li>
                     ))

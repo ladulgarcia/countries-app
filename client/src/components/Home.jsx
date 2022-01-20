@@ -83,7 +83,7 @@ function Home(){
     }
 
    return (
-    <div>
+    <div className={styles.homeimg}>
         <header>
         <h1>Countries of the World</h1>
         <Link to='/activity' className={styles.btn}>Create Activity</Link>
