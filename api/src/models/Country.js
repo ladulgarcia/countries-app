@@ -14,7 +14,7 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    flags: { // Imagen de la bandera *
+    flag: { // Imagen de la bandera *
       type: DataTypes.STRING,
       allowNull: false,
     },
@@ -38,10 +38,10 @@ module.exports = (sequelize) => {
       type: DataTypes.INTEGER,
       allowNull: true,
     },
-    maps:{
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
+    // maps:{
+    //   type: DataTypes.STRING,
+    //   allowNull: true,
+    // },
     // createdInDb: {
     //   type: DataTypes.BOOLEAN,
     //   allowNull: false,

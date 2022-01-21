@@ -21,10 +21,10 @@ module.exports = (sequelize) => {
         type: DataTypes.ENUM('Summer', 'Fall', 'Winter','Spring'),
         allowNull: false,
     },
-    reference: { //URL
-      type: DataTypes.STRING,
-      allowNull: true,
-  },
+  //   reference: { //URL
+  //     type: DataTypes.STRING,
+  //     allowNull: true,
+  // },
   },
   {
     timestamps: false
